@@ -7,18 +7,29 @@
     private let base: Text.LayoutKey.Value
     private let geometry: GeometryProxy
 
+    // MARK: Signature Helpers
+
+    private lazy var equalitySignature = LayoutCollectionSignature(
+      layouts: layouts,
+      includeLayoutOrigin: true
+    )
+    private lazy var reconciliationSignature = LayoutCollectionSignature(
+      layouts: layouts,
+      includeLayoutOrigin: false
+    )
+
     init(base: Text.LayoutKey.Value, geometry: GeometryProxy) {
       self.base = base
       self.geometry = geometry
     }
 
     func isEqual(to other: any TextLayoutCollection) -> Bool {
-      base == (other as? LiveTextLayoutCollection)?.base
+      equalitySignature == (other as? LiveTextLayoutCollection)?.equalitySignature
     }
 
     func needsPositionReconciliation(with other: any TextLayoutCollection) -> Bool {
-      // Same layouts with different origins do not need position reconciliation
-      base.map(\.layout) != (other as? LiveTextLayoutCollection)?.base.map(\.layout)
+      reconciliationSignature
+        != (other as? LiveTextLayoutCollection)?.reconciliationSignature
     }
 
     func index(of layout: Text.Layout) -> Int? {
