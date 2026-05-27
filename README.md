@@ -311,7 +311,7 @@ simple as adding it to your `Package.swift`:
 
 ``` swift
 dependencies: [
-  .package(url: "https://github.com/gonzalezreal/textual", from: "0.1.0")
+  .package(url: "https://github.com/PGATOUR/textual-pgatour", from: "0.1.0")
 ]
 ```
 
